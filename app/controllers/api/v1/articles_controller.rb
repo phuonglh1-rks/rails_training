@@ -4,7 +4,13 @@ module Api
   module V1
     class ArticlesController < ApiController
       def index
-        @articles = Article.eager_load(:comments).all
+        @articles =
+          Article
+          .eager_load([:comments])
+          .all
+
+        @articles = apply_pagination_and_sort('articles', @articles)
+
         @total_count = @articles.count
       end
 
@@ -42,7 +48,7 @@ module Api
       private
 
       def article_params
-        params.require(:article).permit(:title, :body, :status)
+        params.require(:article).permit(:_order, :_sort, :title, :body, :status)
       end
     end
   end

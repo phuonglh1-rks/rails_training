@@ -4,7 +4,8 @@ module Api
   module V1
     class ArticlesController < ApiController
       def index
-        @articles = Article.all
+        @articles = Article.eager_load(:comments).all
+        @total_count = @articles.count
       end
 
       def show

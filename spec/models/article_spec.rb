@@ -8,5 +8,10 @@ RSpec.describe Article, type: :model do
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:body) }
 
+  it {
+    should validate_inclusion_of(:status)
+      .in_array(Visible::VALID_STATUSES)
+  }
+
   it { should validate_length_of(:body).is_at_least(10) }
 end
